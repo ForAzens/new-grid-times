@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/macro";
 
 import { MAIN_STORY, OPINION_STORIES, SECONDARY_STORIES } from "../../data";
+import { QUERIES } from "../../constants";
 
 import SectionTitle from "../SectionTitle";
 import MainStory from "../MainStory";
@@ -28,13 +29,13 @@ const MainStoryGrid = () => {
 
       <OpinionSection>
         <SectionTitle>Opinion</SectionTitle>
-        <StoryList>
+        <OpinionStoryList>
           {OPINION_STORIES.map((story, index) => (
-            <StoryWrapper key={story.id}>
+            <OpinionStoryWrapper key={story.id}>
               <OpinionStory {...story} />
-            </StoryWrapper>
+            </OpinionStoryWrapper>
           ))}
-        </StoryList>
+        </OpinionStoryList>
       </OpinionSection>
 
       <AdvertisementSection>
@@ -53,10 +54,25 @@ const Wrapper = styled.div`
     "advertisement";
   gap: 48px;
   margin-bottom: 48px;
+
+  @media ${QUERIES.tabletAndUp} {
+    grid-template-areas:
+      "main-story secondary-stories"
+      "advertisement advertisement"
+      "opinion-stories opinion-stories";
+    grid-template-columns: 2fr 1fr;
+    gap: 48px 0;
+  }
 `;
 
 const MainStorySection = styled.section`
   grid-area: main-story;
+
+  @media ${QUERIES.tabletAndUp} {
+    padding-right: 16px;
+    margin-right: 16px;
+    border-right: 1px solid var(--color-gray-300);
+  }
 `;
 
 const SecondaryStorySection = styled.section`
@@ -68,6 +84,13 @@ const StoryList = styled.div`
   flex-direction: column;
 
   gap: 8px;
+`;
+
+const OpinionStoryList = styled(StoryList)`
+  @media ${QUERIES.tabletOnly} {
+    flex-direction: row;
+    gap: 32px;
+  }
 `;
 
 const OpinionSection = styled.section`
@@ -83,6 +106,18 @@ const StoryWrapper = styled.div`
     border-bottom: 1px solid var(--color-gray-300);
     padding-bottom: 16px;
     margin-bottom: 16px;
+  }
+`;
+
+const OpinionStoryWrapper = styled(StoryWrapper)`
+  @media ${QUERIES.tabletOnly} {
+    flex: 1;
+
+    &:not(:last-of-type) {
+      border-bottom: revert;
+      padding-bottom: revert;
+      margin-bottom: revert;
+    }
   }
 `;
 
